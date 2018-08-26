@@ -1,0 +1,7 @@
+look
+describe
+take
+grab
+get
+go
+quit
