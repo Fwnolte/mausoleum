@@ -1,6 +1,8 @@
 look
 describe
 take
+drop
+discard
 grab
 get
 go

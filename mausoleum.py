@@ -8,9 +8,9 @@ from game.Item import Item
 def start_game():
     #Initialize world
     sword = Item("Sword", "A plain-looking sword with a leather-wrapped hilt", "a sword")
-    room1 = Environment("Stone Room", "A small room constructed of ancient stone and mortar. Moss grows in the cracks of the stone. It smells damp.", [sword], [], [], [])
+    room1 = Environment("Stone Room", "A small room constructed of ancient stone and mortar. Moss grows in the cracks of the stone. It smells damp.", "", [sword], [], [])
     room2 = Environment("Storage Room", "A small abandoned storage room. Several crates and barrels lie forgotten and rotting.", [], [], [], [])
-    world = World([room1, room2], room1)
+    world = World([room1, room2], room1, [])
     
     #Set up room linkages
     room1.add_travel_destination("north", room2)
