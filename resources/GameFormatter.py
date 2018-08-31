@@ -8,6 +8,7 @@ class Formatter:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
     LIST_SEPARATOR = ", "
+    SPACE = " "
     
     def __init__(self):
         pass
@@ -72,5 +73,8 @@ class Formatter:
             item_list[-1] = "and " + item_list[-1]
 
         item_list[-1] = item_list[-1] + "."
-            
+
+        if len(item_list) == 2:
+            return self.SPACE.join(item_list)
+
         return self.LIST_SEPARATOR.join(item_list)

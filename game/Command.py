@@ -11,7 +11,6 @@ class Command:
         self.world = world
         self.current_environment = world.current_environment
 
-
     def load_valid_command_list(self, file_path):
         command_file = file_path
         
@@ -129,13 +128,17 @@ class Command:
                 items = self.formatter.make_item_list(inventory)
                 self.formatter.print_text("Your inventory contains " + items)
                 return True
-            
-        found_item = self.current_room.find(thing)
-        
+
+        item_in_room = self.current_environment.find(thing)
+        item_in_inventory = self.world.find_in_inventory(thing)
+        found_item = (item_in_room if item_in_room is not None else item_in_inventory)
+
         if found_item is not None:
-            self.formatter.print_text(found_item.description)
+            # TODO: Can we do any better with this?
+            self.formatter.print_text(found_item.description + " This item is in your inventory.")
             return True
-            
+
+        self.formatter.print_item_not_found(thing)
         return False
     
     def take(self, item):
