@@ -1,4 +1,4 @@
-from game.Describable import Describable
+from mausoleum.game.Describable import Describable
 
 
 class Environment(Describable):
@@ -22,7 +22,7 @@ class Environment(Describable):
     def find(self, item_to_find):
         item_to_find = item_to_find.lower()
         all_searchable_things = self.items + self.characters + self.interactibles
-        # Todo: Logic for two items with similar names/types.
+        # TODO: Logic for two items with similar names/types.
         for thing in all_searchable_things:
             if thing.name.lower() == item_to_find:
                 return thing
@@ -34,6 +34,7 @@ class Environment(Describable):
 
     def remove_item(self, item):
         if item not in self.items:
+            # TODO: Remove Debug statement
             print("DEBUG: Tried to remove nonexistent item from environment " + self.name + ": \"" + item.name + "\"")
             return False
         else:

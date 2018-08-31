@@ -3,7 +3,7 @@ import os.path
 
 
 class Command:
-    filler_words = ["the", "at", "and"]
+    FILLER_WORDS = ["the", "at", "and"]
     
     def __init__(self, file_path, formatter, world):
         self.formatter = formatter
@@ -44,7 +44,7 @@ class Command:
             command_tokens[0] = "take"
         
         # Removes all "filler words" from our command syntax
-        return [token for token in command_tokens if token not in self.filler_words]
+        return [token for token in command_tokens if token not in self.FILLER_WORDS]
 
     def is_legal_command(self, command_tokens):
         # TODO: Add more logic to this to detect more cases where a command is invalid

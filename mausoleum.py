@@ -1,9 +1,9 @@
-from resources.GameFormatter import Formatter
+from mausoleum.game.GameFormatter import Formatter
 
-from game.Command import Command
-from game.World import World
-from game.Environment import Environment
-from game.Item import Item
+from mausoleum.game.Command import Command
+from mausoleum.game.World import World
+from mausoleum.game.Environment import Environment
+from mausoleum.game.Item import Item
 
 
 def start_game():
@@ -21,7 +21,7 @@ def start_game():
     
     # Set up objects
     formatter = Formatter()
-    command_module = Command("./game/commands.txt", formatter, world)
+    command_module = Command("./mausoleum/game/commands.txt", formatter, world)
     
     while True:
         command = command_module.get_command()
