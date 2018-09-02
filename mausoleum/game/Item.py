@@ -1,4 +1,4 @@
-from game.Describable import Describable
+from mausoleum.game.Describable import Describable
 
 
 class Item(Describable):

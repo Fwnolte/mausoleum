@@ -1,9 +1,9 @@
-from resources.GameFormatter import Formatter
+from mausoleum.game.GameFormatter import GameFormatter
 
-from game.Command import Command
-from game.World import World
-from game.Environment import Environment
-from game.Item import Item
+from mausoleum.game.Command import Command
+from mausoleum.game.World import World
+from mausoleum.game.Environment import Environment
+from mausoleum.game.Item import Item
 
 
 def start_game():
@@ -20,8 +20,9 @@ def start_game():
     room2.add_travel_destination("south", room1)
     
     # Set up objects
-    formatter = Formatter()
-    command_module = Command("./game/commands.txt", formatter, world)
+    formatter = GameFormatter()
+    command_module = Command("./mausoleum/game/commands.txt", formatter, world)
+    command_module.load_valid_command_list()
     
     while True:
         command = command_module.get_command()
@@ -30,8 +31,8 @@ def start_game():
             continue  # Already printed a warning. Try to grab the next command
         
         command_performed = command_module.perform_command(command)
-        if command_performed:
-            print("DEBUG: Successfully performed command")
+        if not command_performed:
+            print("DEBUG: Failed to perform command")
 
 
 start_game()
