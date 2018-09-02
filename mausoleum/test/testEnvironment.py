@@ -9,6 +9,7 @@ class EnvironmentTest(unittest.TestCase):
     NAME = "Name"
     DESCRIPTION = "this is a description"
     REFERENCE_DESCRIPTION = "this is a reference description"
+    TYPE = "interior"
     ITEM = Item(name=NAME, description=DESCRIPTION, reference_description=REFERENCE_DESCRIPTION)
     CHARACTERS = []  # TODO: Add this
     INTERACTIBLES = []
@@ -17,6 +18,7 @@ class EnvironmentTest(unittest.TestCase):
         self.environment = Environment(self.NAME,
                                        self.DESCRIPTION,
                                        self.REFERENCE_DESCRIPTION,
+                                       self.TYPE,
                                        [],
                                        [],
                                        [])
@@ -27,6 +29,7 @@ class EnvironmentTest(unittest.TestCase):
         self.assertEqual(self.environment.name, self.NAME)
         self.assertEqual(self.environment.description, self.DESCRIPTION)
         self.assertEqual(self.environment.reference_description, self.REFERENCE_DESCRIPTION)
+        self.assertEqual(self.environment.type, self.TYPE)
         self.assertEqual(self.environment.items, [])
         self.assertEqual(self.environment.characters, [])
         self.assertEqual(self.environment.interactibles, [])

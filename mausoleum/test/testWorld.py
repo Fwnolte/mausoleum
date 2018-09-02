@@ -9,10 +9,12 @@ class VARS:
     ROOM1 = Environment("Room 1",
                         "Room 1 description",
                         "Room 1 reference description",
+                        "room1_type",
                         [], [], [])
     ROOM2 = Environment("Room 2",
                         "Room 2 description",
                         "Room 2 reference description",
+                        "room2_type",
                         [], [], [])
 
     # Set up room linkages

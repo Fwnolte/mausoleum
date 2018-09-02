@@ -3,8 +3,12 @@ from mausoleum.game.Item import Item
 
 
 class Environment(Describable):
-    def __init__(self, name, description, reference_description, items, characters, interactibles):
+    TYPE_INTERIOR = "interior"
+    TYPE_EXTERIOR = "exterior"
+
+    def __init__(self, name, description, reference_description, environment_type, items, characters, interactibles):
         super().__init__(name, description, reference_description)
+        self.type = environment_type
         self.items = items
         self.characters = characters
         self.interactibles = interactibles
@@ -36,10 +40,10 @@ class Environment(Describable):
 
     def add_item(self, item):
         if item is None:
-            print("DEBUG: Tried to add \"None\" to inventory")
+            print("DEBUG: Tried to add \"None\" to current environment")
             return False
         elif not isinstance(item, Item):
-            print("DEBUG: Tried to add a non-Item to inventory")
+            print("DEBUG: Tried to add a non-Item to current environment")
             return False
         else:
             self.items.append(item)
@@ -50,10 +54,10 @@ class Environment(Describable):
             print("DEBUG: Tried to remove item \"None\" from current environment")
             return False
         elif not isinstance(item, Item):
-            print("DEBUG: Tried to remove a non-item from inventory: " + str(item))
+            print("DEBUG: Tried to remove a non-item from current environment: " + str(item))
             return False
         elif item not in self.items:
-            print("DEBUG: Tried to remove nonexistent item from environment: \"" + item.name + "\"")
+            print("DEBUG: Tried to remove nonexistent item from current environment: \"" + item.name + "\"")
             return False
         else:
             self.items.remove(item)
