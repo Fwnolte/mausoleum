@@ -438,22 +438,22 @@ class TestCommandGo(TestCommand):
         # self.FORMATTER.print_new_room.assert_called_with(self.DESTINATION)
         self.assertTrue(returned)
 
-    # def testGoWithNonExistentDirectionArgumentFails(self):
-    #     returned = self.command.go("invalidDirection")
-    #
-    #     self.FORMATTER.print_warning.assert_called_with("\"invalidDirection\" is not a valid direction!")
-    #     self.WORLD.travel.assert_not_called()
-    #     self.assertFalse(returned)
-    #
-    # def testGoWithNoneArgumentFails(self):
-    #     returned = self.command.go(None)
-    #     self.WORLD.travel.assert_not_called()
-    #     self.assertFalse(returned)
-    #
-    # def testGoWithIllegalArgumentFails(self):
-    #     returned = self.command.go(1)
-    #     self.WORLD.travel.assert_not_called()
-    #     self.assertFalse(returned)
+    def testGoWithNonExistentDirectionArgumentFails(self):
+        returned = self.command.go("invalidDirection")
+
+        self.FORMATTER.print_warning.assert_called_with("\"invalidDirection\" is not a valid direction!")
+        self.WORLD.travel.assert_not_called()
+        self.assertFalse(returned)
+
+    def testGoWithNoneArgumentFails(self):
+        returned = self.command.go(None)
+        self.WORLD.travel.assert_not_called()
+        self.assertFalse(returned)
+
+    def testGoWithIllegalArgumentFails(self):
+        returned = self.command.go(1)
+        self.WORLD.travel.assert_not_called()
+        self.assertFalse(returned)
 
 
 if __name__ == "__main__":
