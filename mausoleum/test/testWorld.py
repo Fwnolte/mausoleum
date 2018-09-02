@@ -42,19 +42,19 @@ class WorldTest(unittest.TestCase):
     """
     Tests the "travel(...)" method
     """
-    def testTravel(self):
+    def testTravelInValidDirectionSuccessfullyTravels(self):
         returned = self.world.travel("north")
         self.assertEqual(self.world.current_environment, VARS.ROOM2)
-        self.assertEqual(returned, True)
+        self.assertEqual(returned, VARS.ROOM2)
 
-    def testTravelInInvalidDirection(self):
+    def testTravelInInvalidDirectionDoesNothing(self):
         current_environment = self.world.current_environment
 
         returned = self.world.travel("everywhere")
 
         # Assert that the current_environment did not change
         self.assertEqual(current_environment, self.world.current_environment)
-        self.assertEqual(returned, False)
+        self.assertIsNone(returned)
 
     """
     Tests the "get_inventory()" method
@@ -73,62 +73,70 @@ class WorldTest(unittest.TestCase):
     """
     Tests the "add_to_inventory(...)" method
     """
-    def testAddToInventory(self):
+    def testAddItemToInventoryAddsItem(self):
         self.world.inventory = [VARS.SWORD, VARS.ROPE]
 
         returned = self.world.add_to_inventory(VARS.LEVER)
 
         self.assertListEqual(self.world.inventory, [VARS.SWORD, VARS.ROPE, VARS.LEVER])
-        self.assertEqual(returned, True)
+        self.assertTrue(returned)
 
-    def testAddNoneToInventoryFails(self):
+    def testAddNoneToInventoryDoesNothing(self):
         expected = self.world.inventory
 
         returned = self.world.add_to_inventory(None)
 
         self.assertListEqual(self.world.inventory, expected)
         self.assertNotIn(None, self.world.inventory)  # Appending "None" to a list does weird things
-        self.assertEqual(returned, False)
+        self.assertFalse(returned)
 
-    def testAddNonItemToInventoryFails(self):
+    def testAddNonItemToInventoryDoesNothing(self):
         expected = self.world.inventory
 
         returned = self.world.add_to_inventory("not an item")
 
         self.assertListEqual(self.world.inventory, expected)
         self.assertNotIn(None, self.world.inventory)
-        self.assertEqual(returned, False)
+        self.assertFalse(returned)
 
     """
     Tests the "remove_from_inventory(...)" method
     """
-    def testRemoveFromInventory(self):
+    def testRemoveItemFromInventoryRemovesItem(self):
         returned = self.world.remove_from_inventory(VARS.SWORD)
 
         expected = [VARS.ROPE, VARS.LEVER]
-        self.assertEqual(returned, True)
+        self.assertTrue(returned)
         self.assertListEqual(self.world.inventory, expected)  # Test that the item was actually removed
 
-    def testRemoveNonExistentItemFromInventory(self):
+    def testRemoveNonExistentItemFromInventoryDoesNothing(self):
         expected = self.world.inventory
 
         returned = self.world.remove_from_inventory(Item("new", "new", "new"))
 
         self.assertEqual(expected, self.world.inventory)  # Test that no other item was removed
-        self.assertEqual(returned, False)
+        self.assertFalse(returned)
 
-    def testRemoveNoneFromInventory(self):
+    def testRemoveNoneFromInventoryDoesNothing(self):
         expected = self.world.inventory
 
         returned = self.world.remove_from_inventory(None)
 
         self.assertEqual(expected, self.world.inventory)  # Test that no other item was removed
-        self.assertEqual(returned, False)
+        self.assertFalse(returned)
+
+    def testRemoveNonItemFromInventoryDoesNothing(self):
+        expected = self.world.inventory
+
+        returned = self.world.remove_from_inventory("notAnItem")
+
+        self.assertEqual(expected, self.world.inventory)
+        self.assertFalse(returned)
 
     """
     Tests the "find_in_inventory(...)" method
     """
-    def testFindInInventory(self):
+    def testFindItemInInventoryReturnsItem(self):
         returned = self.world.find_in_inventory("sword")
 
         self.assertEqual(returned, VARS.SWORD)

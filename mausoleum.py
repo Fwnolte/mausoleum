@@ -1,4 +1,4 @@
-from mausoleum.game.GameFormatter import Formatter
+from mausoleum.game.GameFormatter import GameFormatter
 
 from mausoleum.game.Command import Command
 from mausoleum.game.World import World
@@ -20,8 +20,9 @@ def start_game():
     room2.add_travel_destination("south", room1)
     
     # Set up objects
-    formatter = Formatter()
+    formatter = GameFormatter()
     command_module = Command("./mausoleum/game/commands.txt", formatter, world)
+    command_module.load_valid_command_list()
     
     while True:
         command = command_module.get_command()

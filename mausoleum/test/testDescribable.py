@@ -15,9 +15,9 @@ class EnvironmentTest(unittest.TestCase):
     Test that the Describable gets initialized properly
     """
     def testInit(self):
-        assert self.describable.name == self.NAME, '"Name" not initialized properly'
-        assert self.describable.description == self.DESCRIPTION, '"Description" not initialized properly'
-        assert self.describable.reference_description == self.REFERENCE_DESCRIPTION, '"Reference Description" not initialized properly'
+        self.assertEqual(self.describable.name, self.NAME)
+        self.assertEqual(self.describable.description, self.DESCRIPTION)
+        self.assertEqual(self.describable.reference_description, self.REFERENCE_DESCRIPTION)
 
 
 if __name__ == "__main__":

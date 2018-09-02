@@ -21,9 +21,9 @@ class World:
         if direction in self.current_environment.travel_destinations:
             destination = self.current_environment.travel_destinations[direction]
             self.current_environment = destination
-            return True
+            return self.current_environment
 
-        return False
+        return None
         
     def get_inventory(self):
         return [item.reference_description for item in self.inventory]
@@ -37,15 +37,18 @@ class World:
         elif not isinstance(item, Item):
             print("DEBUG: Tried to add a non-Item to inventory")
             return False
-
-        self.inventory.append(item)
-        return True
+        else:
+            self.inventory.append(item)
+            return True
 
     # TODO: Remove this once debugging/tests are properly implemented. Call find_in_inventory() followed by a .remove
     # TODO: Logic should be moved away from the World class
     def remove_from_inventory(self, item):
         if item is None:
             print("DEBUG: Tried to remove \"None\" from inventory")
+            return False
+        elif not isinstance(item, Item):
+            print("DEBUG: Tried to remove a non-item from inventory: " + str(item))
             return False
         elif item not in self.inventory:
             print("DEBUG: Tried to remove nonexistent item from inventory: \"" + item.name + "\"")

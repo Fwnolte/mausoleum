@@ -1,5 +1,5 @@
-import unittest
 import copy
+import unittest
 
 from mausoleum.game.Environment import Environment
 from mausoleum.game.Item import Item
@@ -24,12 +24,12 @@ class EnvironmentTest(unittest.TestCase):
     Test that the Environment gets initialized properly
     """
     def testInit(self):
-        assert self.environment.name == self.NAME, '"Name" not initialized properly'
-        assert self.environment.description == self.DESCRIPTION, '"Description" not initialized properly'
-        assert self.environment.reference_description == self.REFERENCE_DESCRIPTION, '"Reference Description" not initialized properly'
-        assert self.environment.items == [], '"Items" not initialized properly'
-        assert self.environment.characters == [], '"Characters" not initialized properly'
-        assert self.environment.interactibles == [], '"Travel Destinations not initialized properly'
+        self.assertEqual(self.environment.name, self.NAME)
+        self.assertEqual(self.environment.description, self.DESCRIPTION)
+        self.assertEqual(self.environment.reference_description, self.REFERENCE_DESCRIPTION)
+        self.assertEqual(self.environment.items, [])
+        self.assertEqual(self.environment.characters, [])
+        self.assertEqual(self.environment.interactibles, [])
 
     """
     Tests for method "add_travel_destination(...)"
@@ -62,18 +62,18 @@ class EnvironmentTest(unittest.TestCase):
     """
     Tests for method "find(...)"
     """
-    def testFindFailsForEmptyItemList(self):
+    def testFindItemInEmptyListReturnsNone(self):
         item = self.ITEM
 
         self.assertIsNone(self.environment.find(item.name))
 
-    def testFindItemInSingletonList(self):
+    def testFindItemInSingletonListReturnsItem(self):
         item = self.ITEM
         self.environment.items = [item]
 
         self.assertEqual(self.environment.find(item.name), item)
 
-    def testFindItemInMultipleItemList(self):
+    def testFindItemInMultipleItemListReturnsItem(self):
         item = self.ITEM
         new_item = Item(name="Item2", description="test", reference_description="test")
 
@@ -81,7 +81,7 @@ class EnvironmentTest(unittest.TestCase):
 
         self.assertEqual(self.environment.find(item.name), item)
 
-    def testFindItemAtEndOfMultipleItemList(self):
+    def testFindItemAtEndOfMultipleItemListReturnsItem(self):
         item = self.ITEM
         new_item = Item(name="Item2", description="test", reference_description="test")
 
@@ -89,23 +89,88 @@ class EnvironmentTest(unittest.TestCase):
 
         self.assertEqual(self.environment.find(item.name), item)
 
+    def testFindNonExistentItemReturnsNone(self):
+        item = self.ITEM
+        self.environment.items = [item]
+
+        returned = self.environment.find("nameNotInList")
+
+        self.assertIsNone(returned)
+
+    def testFindNoneReturnsNone(self):
+        self.environment.items = [self.ITEM]
+
+        returned = self.environment.find(None)
+
+        self.assertIsNone(returned)
+
     """
     Tests for method "add_item(...)"
     """
-    def testAddItem(self):
-        self.environment.add_item(self.ITEM)
+    def testAddItemSuccessfullyAddsItem(self):
+        returned = self.environment.add_item(self.ITEM)
         self.assertListEqual(self.environment.items, [self.ITEM])
+        self.assertTrue(returned)
+
+    def testAddNonItemDoesNothing(self):
+        self.environment.items = [self.ITEM]
+        returned = self.environment.add_item("notAnItem")
+
+        self.assertListEqual([self.ITEM], self.environment.items)
+        self.assertNotIn(None, self.environment.items)  # Additional check because adding None to lists is weird
+        self.assertFalse(returned)
+
+    def testAddNoneDoesNothing(self):
+        self.environment.items = [self.ITEM]
+        returned = self.environment.add_item(None)
+
+        self.assertListEqual([self.ITEM], self.environment.items)
+        self.assertNotIn(None, self.environment.items)  # Additional check because adding None to lists is weird
+        self.assertFalse(returned)
+
 
     """
     Tests for method "remove_item(...)"
     """
     def testRemoveItem(self):
         self.environment.items = [self.ITEM]
-        self.environment.remove_item(self.ITEM)
+        returned = self.environment.remove_item(self.ITEM)
+
+        self.assertTrue(returned)
         self.assertListEqual(self.environment.items, [])
 
-    def testRemoveItemFromEmptyListFails(self):
-        self.assertEqual(self.environment.remove_item(self.ITEM), False)
+    def testRemoveItemFromEmptyListDoesNothing(self):
+        returned = self.environment.remove_item(self.ITEM)
+
+        self.assertFalse(returned)
+        self.assertListEqual(self.environment.items, [])
+
+    def testRemoveNonExistentItemDoesNothing(self):
+        self.environment.items = [self.ITEM]
+        item = copy.deepcopy(self.ITEM)
+        item.name = "Different Name"
+
+        returned = self.environment.remove_item(item)
+
+        self.assertFalse(returned)
+        self.assertListEqual(self.environment.items, [self.ITEM])
+
+    def testRemoveNoneDoesNothing(self):
+        self.environment.items = [self.ITEM]
+
+        returned = self.environment.remove_item(None)
+
+        self.assertFalse(returned)
+        self.assertListEqual(self.environment.items, [self.ITEM])
+
+    def testRemoveNonItemDoesNothing(self):
+        self.environment.items = [self.ITEM]
+
+        returned = self.environment.remove_item("notAnItem")
+
+        self.assertFalse(returned)
+        self.assertListEqual(self.environment.items, [self.ITEM])
+
 
     # TODO: Add these methods in once their constructs are implemented
     # def testFindCharacter():

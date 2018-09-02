@@ -15,9 +15,9 @@ class ItemTest(unittest.TestCase):
     Test that the Item gets initialized properly
     """
     def testInit(self):
-        assert self.item.name == self.NAME, '"Name" not initialized properly'
-        assert self.item.description == self.DESCRIPTION, '"Description" not initialized properly'
-        assert self.item.reference_description == self.REFERENCE_DESCRIPTION, '"Reference Description" not initialized properly'
+        self.assertEqual(self.item.name, self.NAME)
+        self.assertEqual(self.item.description, self.DESCRIPTION)
+        self.assertEqual(self.item.reference_description, self.REFERENCE_DESCRIPTION)
 
 
 if __name__ == "__main__":
