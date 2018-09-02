@@ -31,8 +31,8 @@ def start_game():
             continue  # Already printed a warning. Try to grab the next command
         
         command_performed = command_module.perform_command(command)
-        if command_performed:
-            print("DEBUG: Successfully performed command")
+        if not command_performed:
+            print("DEBUG: Failed to perform command")
 
 
 start_game()
